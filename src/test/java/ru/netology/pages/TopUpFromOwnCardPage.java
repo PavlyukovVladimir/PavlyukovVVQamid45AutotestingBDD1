@@ -20,7 +20,6 @@ public class TopUpFromOwnCardPage {
     private SelenideElement fldFrom = $("[data-test-id=from] input");
     private SelenideElement fldTo = $("[data-test-id=to] input");
     private SelenideElement btnTopUp = $("button[data-test-id=action-transfer]");
-    private SelenideElement btnCancel = $("button[data-test-id=action-cancel]");
     private SelenideElement errorMessageTitle = $("[data-test-id=error-notification] .notification__title");
     private SelenideElement errorMessageContent = $("[data-test-id=error-notification] .notification__content");
 
@@ -68,11 +67,6 @@ public class TopUpFromOwnCardPage {
 
     public PersonalAccountPage topUpButtonClick() {
         btnTopUp.shouldBe(ready).click();
-        return new PersonalAccountPage();
-    }
-
-    public PersonalAccountPage cancelButtonClick() {
-        btnCancel.shouldBe(ready).click();
         return new PersonalAccountPage();
     }
 

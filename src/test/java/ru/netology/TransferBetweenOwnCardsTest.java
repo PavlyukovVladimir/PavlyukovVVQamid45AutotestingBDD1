@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TransferBetweenOwnCardsTest {
     private final String baseUrl = "http://localhost:9999";
     private PersonalAccountPage page;
-    private int firstCardBalance;
-    private int secondCardBalance;
+    private Balance firstCardBalance;
+    private Balance secondCardBalance;
 
     @BeforeEach
     void setUp() {
@@ -40,8 +40,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .secondTopUpClick()
                 .topUp(100, 0);
-        assertEquals(firstCardBalance - 100, page.getFirstCardBalance());
-        assertEquals(secondCardBalance + 100, page.getSecondCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(-100, 0);
+        Balance expectedSecondCardBalance = secondCardBalance.add(100, 0);
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
     }
 
 
@@ -52,8 +55,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .secondTopUpClick()
                 .topUp(-100, 0);
-        assertEquals(firstCardBalance - 100, page.getFirstCardBalance());
-        assertEquals(secondCardBalance + 100, page.getSecondCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(-100, 0);
+        Balance expectedSecondCardBalance = secondCardBalance.add(100, 0);
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
     }
 
     @Order(1)
@@ -63,8 +69,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .firstTopUpClick()
                 .topUp(100, 0);
-        assertEquals(firstCardBalance + 100, page.getFirstCardBalance());
-        assertEquals(secondCardBalance - 100, page.getSecondCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(100, 0);
+        Balance expectedSecondCardBalance = secondCardBalance.add(-100, 0);
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
     }
 
     @Order(1)
@@ -74,8 +83,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .firstTopUpClick()
                 .topUp(-100, 0);
-        assertEquals(firstCardBalance + 100, page.getFirstCardBalance());
-        assertEquals(secondCardBalance - 100, page.getSecondCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(100, 0);
+        Balance expectedSecondCardBalance = secondCardBalance.add(-100, 0);
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
     }
 
     @Order(1)
@@ -125,8 +137,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .firstTopUpClick()
                 .topUp(0, 1);
-        assertEquals(firstCardBalance + 0.01, page.getFirstCardBalance());
-        assertEquals(secondCardBalance - 0.01, page.getSecondCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(0, 1);
+        Balance expectedSecondCardBalance = secondCardBalance.add(0, -1);
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
     }
 
     @Order(1)
@@ -136,8 +151,13 @@ public class TransferBetweenOwnCardsTest {
         page
                 .secondTopUpClick()
                 .topUp(0, 1);
-        assertEquals(secondCardBalance + 0.01, page.getSecondCardBalance());
-        assertEquals(firstCardBalance - 0.01, page.getFirstCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(0, -1);
+        Balance expectedSecondCardBalance = secondCardBalance.add(0, 1);
+        Balance actualFirstCardBalance = page.getFirstCardBalance();
+        Balance actualSecondCardBalance = page.getSecondCardBalance();
+        assertEquals(expectedSecondCardBalance, actualSecondCardBalance);
+        assertEquals(expectedFirstCardBalance, actualFirstCardBalance);
     }
 
     @Order(1)
@@ -147,8 +167,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .secondTopUpClick()
                 .topUp(1, 1);
-        assertEquals(secondCardBalance + 1.01, page.getSecondCardBalance());
-        assertEquals(firstCardBalance - 1.01, page.getFirstCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(0, -1);
+        Balance expectedSecondCardBalance = secondCardBalance.add(0, 1);
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
     }
 
     @Order(1)
@@ -158,8 +181,11 @@ public class TransferBetweenOwnCardsTest {
         page
                 .firstTopUpClick()
                 .topUp(1, 1);
-        assertEquals(firstCardBalance + 1.01, page.getFirstCardBalance());
-        assertEquals(secondCardBalance - 1.01, page.getSecondCardBalance());
+
+        Balance expectedFirstCardBalance = firstCardBalance.add(1, 1);
+        Balance expectedSecondCardBalance = secondCardBalance.add(-1, -1);
+        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
     }
 
     @Order(2)
@@ -167,7 +193,8 @@ public class TransferBetweenOwnCardsTest {
     @Test
     void secondToFirstMoreThanThereIsTest() {
         TopUpFromOwnCardPage topUpPage = page.firstTopUpClick();
-        topUpPage.topUp(secondCardBalance + 1, 0);
+        topUpPage.topUp(secondCardBalance.getRub() + 1, 0);
         topUpPage.checkErrorMessage();
     }
+
 }

@@ -100,4 +100,4 @@ _на удаленной машине эта команда тоже будет 
 # Багрепорты
 
 * [Возможен перевод большей суммы чем есть на карте](https://github.com/PavlyukovVladimir/PavlyukovVVQamid45AutotestingBDD1/issues/1)
-* [Возможен перевод большей суммы чем есть на карте](https://github.com/PavlyukovVladimir/PavlyukovVVQamid45AutotestingBDD1/issues/1)
+* [При переводе суммы с копейками, сумма перевода увеличивается в 100 раз](https://github.com/PavlyukovVladimir/PavlyukovVVQamid45AutotestingBDD1/issues/2)

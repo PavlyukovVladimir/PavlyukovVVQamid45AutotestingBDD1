@@ -13,10 +13,10 @@ public class PersonalAccountPage {
     private final String firstId = DataHelper.Cards.getFirstCardId();
     private final String secondId = DataHelper.Cards.getSecondCardId();
 
-    private SelenideElement firstCardElement = $("[data-test-id=\"" + firstId + "\"]");
-    private SelenideElement firstCardButtonElement = $("[data-test-id=\"" + firstId + "\"] button");
-    private SelenideElement secondCardElement = $("[data-test-id=\"" + secondId + "\"]");
-    private SelenideElement secondCardButtonElement = $("[data-test-id=\"" + secondId + "\"] button");
+    private final SelenideElement firstCardElement = $("[data-test-id=\"" + firstId + "\"]");
+    private final SelenideElement firstCardButtonElement = $("[data-test-id=\"" + firstId + "\"] button");
+    private final SelenideElement secondCardElement = $("[data-test-id=\"" + secondId + "\"]");
+    private final SelenideElement secondCardButtonElement = $("[data-test-id=\"" + secondId + "\"] button");
 
 
     public TopUpFromOwnCardPage firstTopUpClick() {

@@ -10,9 +10,6 @@ public class Balance {
 
     /**
      * If both arguments are not equal to 0, then they must have the same sign.
-     *
-     * @param rub
-     * @param kopecks
      */
     public Balance(int rub, int kopecks) {
         this.rub = rub;

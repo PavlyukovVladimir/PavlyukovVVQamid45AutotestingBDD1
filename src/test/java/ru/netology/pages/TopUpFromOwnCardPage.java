@@ -15,13 +15,13 @@ public class TopUpFromOwnCardPage {
     }
 
     Condition ready = Condition.and("ready", Condition.visible, Condition.enabled);
-    private SelenideElement title = $("h1");
-    private SelenideElement fldAmount = $("[data-test-id=amount] input");
-    private SelenideElement fldFrom = $("[data-test-id=from] input");
-    private SelenideElement fldTo = $("[data-test-id=to] input");
-    private SelenideElement btnTopUp = $("button[data-test-id=action-transfer]");
-    private SelenideElement errorMessageTitle = $("[data-test-id=error-notification] .notification__title");
-    private SelenideElement errorMessageContent = $("[data-test-id=error-notification] .notification__content");
+    private final SelenideElement title = $("h1");
+    private final SelenideElement fldAmount = $("[data-test-id=amount] input");
+    private final SelenideElement fldFrom = $("[data-test-id=from] input");
+    private final SelenideElement fldTo = $("[data-test-id=to] input");
+    private final SelenideElement btnTopUp = $("button[data-test-id=action-transfer]");
+    private final SelenideElement errorMessageTitle = $("[data-test-id=error-notification] .notification__title");
+    private final SelenideElement errorMessageContent = $("[data-test-id=error-notification] .notification__content");
 
     public TopUpFromOwnCardPage checkTitle() {
         title.should(Condition.visible).shouldHave(Condition.text("Пополнение карты"));

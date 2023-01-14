@@ -8,9 +8,9 @@ import ru.netology.DataHelper;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
-    private SelenideElement loginElement = $("[data-test-id=login] input");
-    private SelenideElement passwordElement = $("[data-test-id=password] input");
-    private SelenideElement buttonElement = $("[data-test-id=action-login]");
+    private final SelenideElement loginElement = $("[data-test-id=login] input");
+    private final SelenideElement passwordElement = $("[data-test-id=password] input");
+    private final SelenideElement buttonElement = $("[data-test-id=action-login]");
 
 
     public VerificationPage validLogin(@NotNull DataHelper.Auth.Info info) {

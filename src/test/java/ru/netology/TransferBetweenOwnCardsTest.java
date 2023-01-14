@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith({ScreenShooterExtension.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TransferBetweenOwnCardsTest {
-    private final String baseUrl = "http://localhost:9999";
     private PersonalAccountPage page;
     private Balance firstCardBalance;
     private Balance secondCardBalance;
@@ -23,9 +22,9 @@ public class TransferBetweenOwnCardsTest {
     @BeforeEach
     void setUp() {
         Configuration.browser = "chrome";
-        Configuration.baseUrl = baseUrl;
+        Configuration.baseUrl = "http://localhost:9999";
 //        Configuration.holdBrowserOpen = true;  // false не оставляет браузер открытым по завершению теста
-        Configuration.reportsFolder = "build/reports/tests/test/screenshoots";
+        Configuration.reportsFolder = "build/reports/tests/test/screenshots";
         Selenide.open("");
         DataHelper.Auth.Info info = DataHelper.Auth.getValidInfo();
         page = new LoginPage().validLogin(info).validVerify(DataHelper.Verify.getSmsCode(info));

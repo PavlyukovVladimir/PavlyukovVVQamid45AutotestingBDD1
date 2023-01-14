@@ -7,8 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import static com.codeborne.selenide.Selenide.$;
 
 public class VerificationPage {
-    private SelenideElement verificationElement = $("[data-test-id=code] input");
-    private SelenideElement verificationButtonElement = $("[data-test-id=action-verify]");
+    private final SelenideElement verificationElement = $("[data-test-id=code] input");
+    private final SelenideElement verificationButtonElement = $("[data-test-id=action-verify]");
 
     public VerificationPage fillVerification(@NotNull String code) {
         verificationElement.shouldBe(Condition.visible).setValue(code);

@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit5.ScreenShooterExtension;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import ru.netology.DataHelper.Balance;
 import ru.netology.pages.LoginPage;
 import ru.netology.pages.PersonalAccountPage;
 import ru.netology.pages.TopUpFromOwnCardPage;

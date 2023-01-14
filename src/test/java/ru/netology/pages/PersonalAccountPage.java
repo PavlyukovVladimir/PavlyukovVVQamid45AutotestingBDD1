@@ -3,7 +3,7 @@ package ru.netology.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.jetbrains.annotations.NotNull;
-import ru.netology.Balance;
+import ru.netology.DataHelper.Balance;
 import ru.netology.DataHelper;
 
 import static com.codeborne.selenide.Selenide.$;

@@ -3,7 +3,7 @@ package ru.netology.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.jetbrains.annotations.NotNull;
-import ru.netology.DataHelper;
+import ru.netology.data.DataHelper.Auth;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -13,7 +13,7 @@ public class LoginPage {
     private final SelenideElement buttonElement = $("[data-test-id=action-login]");
 
 
-    public VerificationPage validLogin(@NotNull DataHelper.Auth.Info info) {
+    public VerificationPage validLogin(@NotNull Auth.Info info) {
         String login = info.getLogin();
         if (login != null) loginElement.shouldBe(Condition.visible).setValue(login);
 
@@ -23,4 +23,5 @@ public class LoginPage {
         buttonElement.shouldBe(Condition.visible).click();
         return new VerificationPage();
     }
+
 }

@@ -1,16 +1,15 @@
 package ru.netology;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit5.ScreenShooterExtension;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.netology.DataHelper.Balance;
+import ru.netology.data.DataHelper.Auth;
+import ru.netology.data.DataHelper.Balance;
+import ru.netology.data.DataHelper.Verify;
 import ru.netology.pages.LoginPage;
 import ru.netology.pages.PersonalAccountPage;
 import ru.netology.pages.TopUpFromOwnCardPage;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith({ScreenShooterExtension.class})
@@ -22,13 +21,13 @@ public class TransferBetweenOwnCardsTest {
 
     @BeforeEach
     void setUp() {
-        Configuration.browser = "chrome";
-        Configuration.baseUrl = "http://localhost:9999";
+//        Configuration.browser = "chrome";
+//        Configuration.baseUrl = "http://localhost:9999";
 //        Configuration.holdBrowserOpen = true;  // false не оставляет браузер открытым по завершению теста
-        Configuration.reportsFolder = "build/reports/tests/test/screenshots";
+//        Configuration.reportsFolder = "build/reports/tests/test/screenshots";
         Selenide.open("");
-        DataHelper.Auth.Info info = DataHelper.Auth.getValidInfo();
-        page = new LoginPage().validLogin(info).validVerify(DataHelper.Verify.getSmsCode(info));
+        Auth.Info info = Auth.getValidInfo();
+        page = new LoginPage().validLogin(info).validVerify(Verify.getSmsCode(info));
         firstCardBalance = page.getFirstCardBalance();
         secondCardBalance = page.getSecondCardBalance();
     }
@@ -43,13 +42,14 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(-100, 0);
         Balance expectedSecondCardBalance = secondCardBalance.add(100, 0);
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(expectedFirstCardBalance)
+                .checkSecondCardBalance(expectedSecondCardBalance);
     }
 
 
     @Order(1)
-    @DisplayName("Со первой на вторую -100, - про игнорируется")
+    @DisplayName("С первой на вторую -100, - проигнорируется")
     @Test
     void firstToSecond_100Test() {
         page
@@ -58,8 +58,9 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(-100, 0);
         Balance expectedSecondCardBalance = secondCardBalance.add(100, 0);
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(expectedFirstCardBalance)
+                .checkSecondCardBalance(expectedSecondCardBalance);
     }
 
     @Order(1)
@@ -72,12 +73,13 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(100, 0);
         Balance expectedSecondCardBalance = secondCardBalance.add(-100, 0);
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(expectedFirstCardBalance)
+                .checkSecondCardBalance(expectedSecondCardBalance);
     }
 
     @Order(1)
-    @DisplayName("Со второй на первую -100, - про игнорируется")
+    @DisplayName("Со второй на первую -100, - проигнорируется")
     @Test
     void secondToFirst_100Test() {
         page
@@ -86,8 +88,9 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(100, 0);
         Balance expectedSecondCardBalance = secondCardBalance.add(-100, 0);
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(expectedFirstCardBalance)
+                .checkSecondCardBalance(expectedSecondCardBalance);
     }
 
     @Order(1)
@@ -97,19 +100,21 @@ public class TransferBetweenOwnCardsTest {
         page
                 .firstTopUpClick()
                 .selfTopUp(100, 0);
-        assertEquals(firstCardBalance, page.getFirstCardBalance());
-        assertEquals(secondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(firstCardBalance)
+                .checkSecondCardBalance(secondCardBalance);
     }
 
     @Order(1)
-    @DisplayName("С второй на вторую 100")
+    @DisplayName("Со второй на вторую 100")
     @Test
     void secondToSecond100Test() {
         page
                 .secondTopUpClick()
                 .selfTopUp(100, 0);
-        assertEquals(firstCardBalance, page.getFirstCardBalance());
-        assertEquals(secondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(firstCardBalance)
+                .checkSecondCardBalance(secondCardBalance);
     }
 
     @Order(1)
@@ -140,12 +145,13 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(0, 1);
         Balance expectedSecondCardBalance = secondCardBalance.add(0, -1);
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(expectedFirstCardBalance)
+                .checkSecondCardBalance(expectedSecondCardBalance);
     }
 
     @Order(1)
-    @DisplayName("Со первой на вторую 0.01")
+    @DisplayName("С первой на вторую 0.01")
     @Test
     void firstToSecond001Test() {
         page
@@ -154,14 +160,13 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(0, -1);
         Balance expectedSecondCardBalance = secondCardBalance.add(0, 1);
-        Balance actualFirstCardBalance = page.getFirstCardBalance();
-        Balance actualSecondCardBalance = page.getSecondCardBalance();
-        assertEquals(expectedSecondCardBalance, actualSecondCardBalance);
-        assertEquals(expectedFirstCardBalance, actualFirstCardBalance);
+        page
+                .checkSecondCardBalance(expectedSecondCardBalance)
+                .checkFirstCardBalance(expectedFirstCardBalance);
     }
 
     @Order(1)
-    @DisplayName("Со первой на вторую 1.01")
+    @DisplayName("С первой на вторую 1.01")
     @Test
     void firstToSecond1_001Test() {
         page
@@ -170,8 +175,9 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(0, -1);
         Balance expectedSecondCardBalance = secondCardBalance.add(0, 1);
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
+        page
+                .checkSecondCardBalance(expectedSecondCardBalance)
+                .checkFirstCardBalance(expectedFirstCardBalance);
     }
 
     @Order(1)
@@ -184,8 +190,9 @@ public class TransferBetweenOwnCardsTest {
 
         Balance expectedFirstCardBalance = firstCardBalance.add(1, 1);
         Balance expectedSecondCardBalance = secondCardBalance.add(-1, -1);
-        assertEquals(expectedFirstCardBalance, page.getFirstCardBalance());
-        assertEquals(expectedSecondCardBalance, page.getSecondCardBalance());
+        page
+                .checkFirstCardBalance(expectedFirstCardBalance)
+                .checkSecondCardBalance(expectedSecondCardBalance);
     }
 
     @Order(2)

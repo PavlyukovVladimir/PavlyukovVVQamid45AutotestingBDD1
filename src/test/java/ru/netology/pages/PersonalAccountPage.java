@@ -3,16 +3,17 @@ package ru.netology.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.jetbrains.annotations.NotNull;
-import ru.netology.DataHelper.Balance;
-import ru.netology.DataHelper;
+import ru.netology.data.DataHelper.Balance;
+import ru.netology.data.DataHelper.Cards;
 
 import static com.codeborne.selenide.Selenide.$;
 
 
 public class PersonalAccountPage {
-    private final String firstId = DataHelper.Cards.getFirstCardId();
-    private final String secondId = DataHelper.Cards.getSecondCardId();
+    private final String firstId = Cards.getFirstCardId();
+    private final String secondId = Cards.getSecondCardId();
 
+    private final SelenideElement title = $("[data-test-id=dashboard]");
     private final SelenideElement firstCardElement = $("[data-test-id=\"" + firstId + "\"]");
     private final SelenideElement firstCardButtonElement = $("[data-test-id=\"" + firstId + "\"] button");
     private final SelenideElement secondCardElement = $("[data-test-id=\"" + secondId + "\"]");
@@ -27,6 +28,16 @@ public class PersonalAccountPage {
     public TopUpFromOwnCardPage secondTopUpClick() {
         secondCardButtonElement.shouldBe(Condition.visible).click();
         return new TopUpFromOwnCardPage(secondId);
+    }
+
+    public PersonalAccountPage checkFirstCardBalance(@NotNull Balance balance) {
+        firstCardElement.shouldHave(Condition.ownText("баланс: " + balance + " р."));
+        return this;
+    }
+
+    public PersonalAccountPage checkSecondCardBalance(@NotNull Balance balance) {
+        secondCardElement.shouldHave(Condition.ownText("баланс: " + balance + " р."));
+        return this;
     }
 
     private Balance extractBalance(@NotNull String text) {
@@ -49,4 +60,8 @@ public class PersonalAccountPage {
         return extractBalance(text);
     }
 
+    public PersonalAccountPage verifyIsPersonalAccountPage() {
+        title.shouldHave(Condition.text("  Личный кабинет"));
+        return this;
+    }
 }

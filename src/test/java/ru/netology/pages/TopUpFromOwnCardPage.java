@@ -3,7 +3,7 @@ package ru.netology.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.jetbrains.annotations.NotNull;
-import ru.netology.DataHelper;
+import ru.netology.data.DataHelper.Cards;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -38,13 +38,13 @@ public class TopUpFromOwnCardPage {
     }
 
     public TopUpFromOwnCardPage fillValidFromField() {
-        String cardNumberFrom = DataHelper.Cards.getOtherCardNumber(cardId);
+        String cardNumberFrom = Cards.getOtherCardNumber(cardId);
         fldFrom.shouldBe(ready).setValue(cardNumberFrom);
         return this;
     }
 
     public TopUpFromOwnCardPage fillSameCardFromField() {
-        String cardNumberFrom = DataHelper.Cards.getCardNumberFromId(cardId);
+        String cardNumberFrom = Cards.getCardNumberFromId(cardId);
         fldFrom.shouldBe(ready).setValue(cardNumberFrom);
         return this;
     }
@@ -55,7 +55,7 @@ public class TopUpFromOwnCardPage {
     }
 
     public TopUpFromOwnCardPage checkToField() {
-        String currentCardNumber = DataHelper.Cards.getCardNumberFromId(cardId);
+        String currentCardNumber = Cards.getCardNumberFromId(cardId);
         String hiddenCardNumber = "**** **** **** ";
         hiddenCardNumber += currentCardNumber.substring(currentCardNumber.length() - 5);
         fldTo
@@ -89,7 +89,7 @@ public class TopUpFromOwnCardPage {
     public void unknownTopUp(int amount, int fractional) {
         checkTitle()
                 .fillAmount(amount, fractional)
-                .fillFromField(DataHelper.Cards.getUnknownCardNumber())
+                .fillFromField(Cards.getUnknownCardNumber())
                 .checkToField()
                 .topUpButtonClick();
         checkErrorMessage();

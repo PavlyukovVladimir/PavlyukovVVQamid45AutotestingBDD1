@@ -20,7 +20,7 @@ test_script:
   # запускаем тест, флаг --info позволяет выводить больше информации
   # -Dselenide.headless=true запустит браузер в невидимом режиме
   - ./gradlew test -Dselenide.headless=true --tests ru.netology.TransferBetweenOwnCardsTest --info
-  - - kill -TERM $(cat ./testserver.pid)
+  - kill -TERM $(cat ./testserver.pid)
 on_finish:
   - 7z a build/reports.zip build/reports/
   - appveyor PushArtifact build/reports.zip
